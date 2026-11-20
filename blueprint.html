@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Referral system blueprint</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="dc-lite.js" defer></script>
+</head>
+<body>
+<div id="app"></div>
+<script type="text/x-dc-template" id="dc-template">
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#1F43B8}a:hover{color:#14306F}
+</style>
+</helmet>
+<div style="width: 1440px; height: 1240px; box-sizing: border-box; padding: 64px; background: #F4F5F8; font-family: Inter, system-ui, sans-serif; color: #14171F; font-size: 14px; line-height: 1.45; display: flex; flex-direction: column; gap: 36px">
+
+<div style="display: flex; flex-direction: column; gap: 8px; max-width: 960px">
+<div style="font-size: 13px; font-weight: 600; color: #1F43B8; text-transform: uppercase; letter-spacing: 0.08em">Replacing Referral Rock · built into Radius</div>
+<h1 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 44px; font-weight: 600; line-height: 1.1">Referral system blueprint</h1>
+<p style="margin: 0; font-size: 17px; color: #3D4452">One policy across Peru (PEN), Pakistan and Internal Edge (USD); real-time visibility for referrers; verified, auditable bonus payouts for Marketplace Operations.</p>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 14px">
+<h2 style="margin: 0; font-size: 18px; font-weight: 600">Talent Journey and bonus (policy v1.0): Pending → Approved → bonus after 3 months</h2>
+<div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 10px">
+<div style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 12px; font-weight: 700; color: #5B6372">01</span>
+<span style="align-self: flex-start; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; background: #EEF0F3; color: #3D4452">Applied</span>
+<span style="font-size: 13px; color: #3D4452">Via member link on talent.onedge.co; referrer gets Referral Notification</span>
+</div>
+<div style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 12px; font-weight: 700; color: #5B6372">02</span>
+<span style="align-self: flex-start; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; background: #FCE7DE; color: #9A3412">Incomplete</span>
+<span style="font-size: 13px; color: #3D4452">Dormant until profile, video, assessment and AI interview are done</span>
+</div>
+<div style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 12px; font-weight: 700; color: #5B6372">03</span>
+<span style="align-self: flex-start; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; background: #FEF3C7; color: #854D0E">Under review</span>
+<span style="font-size: 13px; color: #3D4452">Reviewed within ~30 days · status Pending</span>
+</div>
+<div style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 12px; font-weight: 700; color: #5B6372">04</span>
+<span style="align-self: flex-start; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; background: #E2ECFD; color: #1D4ED8">Edge Edu training</span>
+<span style="font-size: 13px; color: #3D4452">Certification enrollment; referrer notified</span>
+</div>
+<div style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 12px; font-weight: 700; color: #5B6372">05</span>
+<span style="align-self: flex-start; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; background: #ECE9FD; color: #4C3DB8">Marketplace</span>
+<span style="font-size: 13px; color: #3D4452">Marketplace-ready, awaiting a customer match</span>
+</div>
+<div style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 12px; font-weight: 700; color: #5B6372">06</span>
+<span style="align-self: flex-start; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; background: #D3F0DF; color: #14532D">Selected</span>
+<span style="font-size: 13px; color: #3D4452">Selected with start date → status Approved (no bonus yet)</span>
+</div>
+<div style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 12px; font-weight: 700; color: #5B6372">07</span>
+<span style="align-self: flex-start; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; background: #14171F; color: #FFFFFF">Engaged 3 months</span>
+<span style="font-size: 13px; color: #3D4452">First engagement, 3 consecutive months → bonus, paid next month</span>
+</div>
+</div>
+<p style="margin: 0; font-size: 13px; color: #5B6372">Denied at any stage (rejected, withdrew, declined, never started). No bonus if the first engagement ends early for any reason, including a move to another customer. At payout both people must still be active.</p>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px">
+<div style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 12px; padding: 22px; display: flex; flex-direction: column; gap: 12px">
+<h2 style="margin: 0; font-size: 18px; font-weight: 600">Who uses it</h2>
+<div><strong>Referring member</strong><br><span style="color: #3D4452">Registers per program, gets a unique link after approval, submits referrals, sees only their own referrals and stage progress.</span></div>
+<div><strong>Marketplace Operations</strong><br><span style="color: #3D4452">Approves signups, activates / disables accounts, searches members and candidates, reassigns ownership, exports reports.</span></div>
+<div><strong>Radius (system)</strong><br><span style="color: #3D4452">Source of truth for application stage and placement status; pushes changes to the referral system.</span></div>
+</div>
+
+<div style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 12px; padding: 22px; display: flex; flex-direction: column; gap: 10px">
+<h2 style="margin: 0; font-size: 18px; font-weight: 600">Core data model</h2>
+<div style="font-family: ui-monospace, Menlo, monospace; font-size: 12.5px; line-height: 1.6; color: #14171F; display: flex; flex-direction: column; gap: 10px">
+<div><strong>programs</strong> <span style="color: #5B6372">id, code (PK/PE/INT), signup_slug, eligibility_rules</span></div>
+<div><strong>referral_members</strong> <span style="color: #5B6372">id, radius_user_id, program_id, referral_code, status (pending/active/disabled), approved_by, approved_at</span></div>
+<div><strong>referrals</strong> <span style="color: #5B6372">id, member_id, candidate_radius_id, candidate_email, program_id, current_stage, submitted_at, completed_at, approved_at, live_at</span></div>
+<div><strong>referral_stage_events</strong> <span style="color: #5B6372">referral_id, stage, occurred_at, source (radius/manual)</span></div>
+<div><strong>audit_log</strong> <span style="color: #5B6372">actor, action, entity, before, after, reason, at</span></div>
+</div>
+<span style="font-size: 12px; color: #5B6372">Unique keys on candidate email + Radius ID enforce duplicate prevention.</span>
+</div>
+
+<div style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 12px; padding: 22px; display: flex; flex-direction: column; gap: 12px">
+<h2 style="margin: 0; font-size: 18px; font-weight: 600">Build options</h2>
+<div><strong>PHP (e.g. Laravel)</strong><br><span style="color: #3D4452">Natural fit if Radius is already PHP: shared auth, DB and deploy; server-rendered dashboards with built-in queues for notifications and CSV exports.</span></div>
+<div><strong>React front end + API</strong><br><span style="color: #3D4452">Richer, live-updating dashboards; needs an API layer (Node or PHP) and shared auth with Radius.</span></div>
+<div><strong>Hybrid</strong><br><span style="color: #3D4452">Laravel back end with React pages (e.g. via Inertia): one codebase, React UI where interactivity matters.</span></div>
+</div>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px">
+<div style="background: #14171F; color: #FFFFFF; border-radius: 12px; padding: 22px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 12px; font-weight: 700; color: #9DB4FF; letter-spacing: 0.06em">PHASE 1 · MVP</span>
+<span style="color: #E3E6EB">Signup verified against Radius, referral links + attribution, member portal (Pending/Approved/Denied), duplicate &amp; former-Talent checks, admin search, scoped CSV export.</span>
+</div>
+<div style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 12px; padding: 22px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 12px; font-weight: 700; color: #1F43B8; letter-spacing: 0.06em">PHASE 2 · AUTOMATION</span>
+<span style="color: #3D4452">Idempotent Radius webhooks for stages and engagements, 3-month bonus engine with policy versions, verification queue, two-person payout batches, disputes.</span>
+</div>
+<div style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 12px; padding: 22px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 12px; font-weight: 700; color: #1F43B8; letter-spacing: 0.06em">PHASE 3 · CUTOVER</span>
+<span style="color: #3D4452">Import historic data from Referral Rock, manual adjustment tools for Ops, retire Referral Rock.</span>
+</div>
+</div>
+
+</div>
+</x-dc>
+</script>
+<script type="text/x-dc" id="dc-logic" data-props='{"$preview":{"width":1440,"height":1240}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

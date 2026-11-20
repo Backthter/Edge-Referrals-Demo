@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Edge Talent Referral portal</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="dc-lite.js" defer></script>
+</head>
+<body>
+<div id="app"></div>
+<script type="text/x-dc-template" id="dc-template">
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#4B1C8A}a:hover{color:#35106A}
+input,select,button,textarea{font:inherit}
+input:focus-visible,select:focus-visible,button:focus-visible,textarea:focus-visible{outline:2px solid #4B1C8A;outline-offset:2px}
+button,.card,.tr,.pill,.inp,.ta,.tab{transition:background-color .18s ease,border-color .18s ease,box-shadow .2s ease,transform .15s ease,color .18s ease,filter .15s ease}
+button:not(:disabled):hover{filter:brightness(.97)}
+.btn:not(:disabled):hover{border-color:#B9A3DE;color:#35106A}
+.btnp:not(:disabled):hover{filter:none;background:#35106A;box-shadow:0 4px 14px rgba(75,28,138,.30);transform:translateY(-1px)}
+.btnd:not(:disabled):hover{border-color:#D97757;box-shadow:0 2px 8px rgba(180,35,24,.12)}
+button:not(:disabled):active{transform:translateY(0) scale(.97)}
+.inp:hover,.ta:hover{border-color:#B9A3DE}
+.inp:focus,.ta:focus{border-color:#4B1C8A;box-shadow:0 0 0 3px rgba(75,28,138,.14);outline:none}
+.tr:hover{box-shadow:inset 3px 0 0 #4B1C8A}
+.tab:hover{color:#4B1C8A !important}
+.lnk:hover{text-decoration:underline;text-underline-offset:3px}
+button.card:hover,.lift:hover{box-shadow:0 8px 22px rgba(75,28,138,.13);transform:translateY(-2px);border-color:#D8C9EF}
+.bar>div,.bar>span{transform-origin:left center;animation:barGrow .9s cubic-bezier(.2,.8,.2,1) both}
+.ovl{animation:fadeIn .18s ease both}
+[role=dialog]{animation:popIn .24s cubic-bezier(.2,.8,.2,1) both}
+[role=status]{animation:slideDown .28s cubic-bezier(.2,.8,.2,1) both}
+[role=menu]{animation:slideDown .16s ease both}
+.pill{animation:fadeIn .3s ease both}
+.cp:active{transform:scale(.9)}
+@keyframes barGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes popIn{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes slideDown{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.demo{position:relative;outline:2px dashed #B7791F !important;outline-offset:3px;border-radius:8px}
+.demo::after{content:'DEMO ONLY';position:absolute;top:-11px;right:8px;font:700 9px/1.5 Inter,sans-serif;letter-spacing:.08em;background:#B7791F;color:#FFFFFF;padding:0 6px;border-radius:4px;pointer-events:none;z-index:3;white-space:nowrap}
+.demo-in{outline-offset:-4px}
+.demo-in::after{top:4px}
+
+@media (max-width: 640px){
+.pnav{flex-wrap:nowrap !important;overflow-x:auto;width:100%;order:3;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding-bottom:2px}
+.pnav::-webkit-scrollbar{display:none}
+.pnav button{flex:none}
+.phdr{padding:10px 14px !important;gap:8px !important}
+.pwrap{padding:16px 14px 40px !important;gap:14px !important}
+.band{grid-template-columns:repeat(2,minmax(0,1fr)) !important;padding:10px !important}
+.band>div>div:nth-child(2){font-size:24px !important}
+.linkbox{padding:14px !important}
+.linkbox .mono{font-size:15px !important}
+.linkbox .btnp{width:100%}
+.card{padding:14px !important}
+.hero-h1{font-size:28px !important}
+.hero-p{font-size:15px !important}
+.pwrap .ta{min-height:90px}
+.dbar{gap:6px !important;padding:8px 10px !important}
+.dbar .dtxt{display:none}
+.dbar button{min-height:34px !important;padding:0 10px !important;font-size:12px !important}
+.emailhdr{grid-template-columns:56px minmax(0,1fr) !important}
+.rowgrid{grid-template-columns:minmax(0,1fr) auto !important}
+}
+.vsw{display:inline-flex;gap:2px;padding:3px;background:#2A2F3A;border-radius:10px}
+.vsw a,.vsw span{display:inline-flex;align-items:center;min-height:30px;padding:0 12px;border-radius:7px;font-size:13px;font-weight:600;text-decoration:none;color:#C9CFDA;white-space:nowrap}
+.vsw a:hover{background:#3A4050;color:#FFFFFF}
+.vsw .on{background:#FFFFFF;color:#14171F}
+@media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important}}
+
+.stag>*{animation:fadeUp .4s cubic-bezier(.2,.8,.2,1) both}
+.stag>*:nth-child(2){animation-delay:.04s}.stag>*:nth-child(3){animation-delay:.08s}.stag>*:nth-child(4){animation-delay:.12s}.stag>*:nth-child(5){animation-delay:.16s}.stag>*:nth-child(6){animation-delay:.2s}.stag>*:nth-child(7){animation-delay:.24s}.stag>*:nth-child(8){animation-delay:.28s}
+.rowbtn:hover{background:#F8F4FD !important}
+.band>div{border-radius:8px;padding:8px 12px;transition:background-color .2s ease,transform .2s ease}
+.band>div:hover{background:rgba(255,255,255,.12);transform:translateY(-1px)}
+.navtab:hover{background:#F3EEFA !important}
+.linkbox{animation:fadeUp .45s ease both}
+.copied{animation:pulse .6s ease}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(75,28,138,.45)}100%{box-shadow:0 0 0 14px rgba(75,28,138,0)}}
+
+button:disabled{opacity:.45;cursor:not-allowed}
+.card{background:#FFFFFF;border:1px solid #E3E6EB;border-radius:14px;padding:20px;box-sizing:border-box;min-width:0}
+.btn{min-height:40px;padding:0 14px;border:1px solid #C9CED6;border-radius:8px;background:#FFFFFF;color:#14171F;cursor:pointer;font-size:13px;font-weight:500}
+.btnp{min-height:44px;padding:0 18px;border:1px solid #4B1C8A;border-radius:8px;background:#4B1C8A;color:#FFFFFF;cursor:pointer;font-size:14px;font-weight:600}
+.pill{display:inline-block;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap}
+.inp{min-height:42px;padding:0 12px;border:1px solid #C9CED6;border-radius:8px;background:#FFFFFF;font-size:14px;box-sizing:border-box;width:100%}
+.ta{padding:10px 12px;border:1px solid #C9CED6;border-radius:8px;font-size:13px;min-height:110px;resize:vertical;box-sizing:border-box;width:100%}
+.lbl{display:flex;flex-direction:column;gap:4px;font-size:13px;font-weight:600;color:#3D4452}
+.muted{color:#5B6372;font-size:13px}
+.h1{margin:0;font-family:Inter,sans-serif;letter-spacing:-0.01em;font-size:28px;font-weight:600}
+.h2{margin:0;font-size:16px;font-weight:600}
+.mono{font-family:ui-monospace,Menlo,monospace}
+.bar{background:#EEF0F3;border-radius:999px;height:8px;overflow:hidden}
+.tgl{width:40px;height:24px;border-radius:999px;border:0;padding:2px;cursor:pointer;display:inline-flex;flex:none}
+.knob{width:20px;height:20px;border-radius:50%;background:#FFFFFF;display:block;box-shadow:0 1px 2px rgba(0,0,0,.25)}
+.note{background:#FFFBEB;border:1px solid #F3D98B;border-radius:10px;padding:10px 14px;font-size:13px;color:#5B4410}
+</style>
+</helmet>
+<div style="min-height: 100vh; background: #F4F5F8; font-family: Inter, system-ui, sans-serif; color: #14171F; font-size: 14px; line-height: 1.45">
+
+<div class="demo demo-in dbar" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; padding: 10px 16px; background: #14171F">
+<nav class="vsw" aria-label="Prototype view"><a href="Main.dc.html">Admin</a><span class="on" aria-current="page">Member</span></nav><span style="width: 1px; height: 22px; background: #3A4050; margin: 0 4px"></span><span class="dtxt" style="font-size: 12px; color: #B8BFCC; margin-right: 4px">Demo date Nov 20, 2026 · view as</span>
+<sc-for list="{{personas}}" as="p" hint-placeholder-count="2"><button onClick="{{p.pick}}" style="min-height: 36px; padding: 0 14px; border: 0; border-radius: 8px; cursor: pointer; font-size: 13px; background: {{p.bg}}; color: {{p.fg}}; font-weight: {{p.fw}}">{{p.label}}</button></sc-for>
+</div>
+
+<sc-if value="{{toast}}" hint-placeholder-val="{{false}}">
+<div role="status" style="max-width: 1180px; margin: 12px auto 0; padding: 0 24px; box-sizing: border-box"><div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; background: #14171F; color: #FFFFFF; border-radius: 10px; padding: 8px 8px 8px 16px; font-size: 13px"><span>{{toast}}</span><button onClick="{{clearToast}}" aria-label="Dismiss" style="background: transparent; color: #FFFFFF; border: 0; min-height: 32px; padding: 0 10px; cursor: pointer">✕</button></div></div>
+</sc-if>
+
+<sc-if value="{{isMember}}" hint-placeholder-val="{{true}}">
+<div>
+<header style="background: #FFFFFF; border-bottom: 1px solid #E3E6EB">
+<div class="phdr" style="max-width: 1180px; margin: 0 auto; padding: 12px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; box-sizing: border-box">
+<div style="display: flex; align-items: center; gap: 10px"><svg width="30" height="22" viewBox="0 0 30 22" aria-hidden="true"><g fill="#4B1C8A"><circle cx="4" cy="4" r="3.2"></circle><circle cx="12" cy="4" r="3.2"></circle><rect x="17" y="1" width="12" height="6" rx="3"></rect><circle cx="4" cy="11" r="3.2"></circle><rect x="9" y="8" width="12" height="6" rx="3"></rect><circle cx="4" cy="18" r="3.2"></circle><circle cx="12" cy="18" r="3.2"></circle><rect x="17" y="15" width="12" height="6" rx="3"></rect></g></svg><div><div style="font-weight: 700; color: #2B0D57; letter-spacing: -0.01em">{{t.brand}}</div><div class="muted" style="font-size: 12px">{{me.name}} · {{me.country}} · paid in {{me.cur}}</div></div></div>
+<nav class="pnav" aria-label="Portal" style="display: flex; flex-wrap: wrap; gap: 4px">
+<sc-for list="{{tabs}}" as="x" hint-placeholder-count="5"><button class="navtab" onClick="{{x.pick}}" style="min-height: 40px; padding: 0 14px; border: 0; border-radius: 8px; cursor: pointer; font-size: 14px; background: {{x.bg}}; color: {{x.fg}}; font-weight: {{x.fw}}">{{x.label}}</button></sc-for>
+</nav>
+<button class="btn" onClick="{{toggleLang}}" aria-label="Switch language" style="min-height: 34px">{{langLabel}}</button>
+</div>
+</header>
+
+<div class="pwrap" style="max-width: 1180px; margin: 0 auto; padding: 24px 24px 56px; display: flex; flex-direction: column; gap: 20px; box-sizing: border-box">
+
+<sc-if value="{{tab.home}}" hint-placeholder-val="{{true}}">
+<div style="display: flex; flex-direction: column; gap: 20px">
+<div class="band stag" style="background: #4B1C8A; border-radius: 10px; padding: 14px 16px; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 6px; color: #FFFFFF; box-shadow: 0 10px 30px rgba(75,28,138,.22)">
+<sc-for list="{{stats}}" as="s" hint-placeholder-count="4"><div><div style="font-size: 13px; font-weight: 600; color: #EADFFB">{{s.label}}</div><div style="font-size: 32px; font-weight: 700; line-height: 1.15; letter-spacing: -0.02em">{{s.value}}</div><div style="font-size: 12px; color: #CDBBEC">{{s.sub}}</div></div></sc-for>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start">
+<section class="card stag" style="flex: 1 1 340px; display: flex; flex-direction: column; gap: 4px; padding: 16px 18px">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 4px"><h2 class="h2">Your referrals</h2><button onClick="{{goRefs}}" style="background: transparent; border: 0; color: #4B1C8A; cursor: pointer; font-weight: 500; font-size: 13px; padding: 0">View all</button></div>
+<sc-for list="{{glance}}" as="g" hint-placeholder-count="5">
+<button class="rowbtn" onClick="{{g.open}}" style="width: 100%; text-align: left; border: 0; border-top: 1px solid #EEF0F3; background: #FFFFFF; cursor: pointer; padding: 9px 0; display: flex; flex-direction: column; gap: 5px">
+<span style="display: flex; justify-content: space-between; align-items: center; gap: 8px; font-size: 13px"><span><strong>{{g.name}}</strong> <span class="muted" style="font-size: 12px">· {{g.step}}</span></span><span class="pill" style="background: {{g.bg}}; color: {{g.fg}}">{{g.status}}</span></span>
+<sc-if value="{{g.hasMeter}}" hint-placeholder-val="{{false}}"><span style="display: flex; align-items: center; gap: 8px"><span class="bar" style="flex: 1"><span style="display: block; height: 8px; background: {{g.color}}; width: {{g.w}}"></span></span><span class="muted" style="font-size: 12px; flex: none">{{g.meter}}</span></span></sc-if>
+</button>
+</sc-for>
+<div class="muted" style="font-size: 12px; border-top: 1px solid #EEF0F3; padding-top: 8px">{{t.bonusLabel}}: <strong style="color: #14171F">{{me.payLine}}</strong>, after 3 consecutive months of active work</div>
+</section>
+<section class="card" style="flex: 1.3 1 420px; display: flex; flex-direction: column; gap: 14px">
+<h2 class="h2" style="font-size: 18px">{{t.share}}</h2>
+<div class="linkbox" style="background: #F6F1FC; border: 2px solid #4B1C8A; border-radius: 14px; padding: 18px; display: flex; flex-direction: column; gap: 12px">
+<div style="font-size: 12px; font-weight: 700; color: #4B1C8A; text-transform: uppercase; letter-spacing: 0.06em">Your unique referral link</div>
+<div class="mono" style="font-size: 20px; font-weight: 600; color: #14171F; overflow-wrap: anywhere; line-height: 1.3">{{link}}</div>
+<div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap"><button class="btnp {{copyCls}}" onClick="{{copy}}" style="min-height: 48px; padding: 0 24px; font-size: 15px">{{copyLabel}}</button><span class="muted">Candidates must apply through this link for the referral to count.</span></div>
+</div>
+<div style="border-top: 1px solid #EEF0F3; padding-top: 14px; display: flex; flex-direction: column; gap: 10px">
+<h2 class="h2">{{t.invite}}</h2>
+<label class="lbl">{{t.friendEmail}}<input class="inp" value="{{inv.email}}" onChange="{{setInvEmail}}" placeholder="name@email.com"></label>
+<label class="lbl">{{t.message}}<textarea class="ta" value="{{inv.msg}}" onChange="{{setInvMsg}}"></textarea></label>
+<label style="display: flex; gap: 10px; align-items: flex-start; font-size: 13px; cursor: pointer"><input type="checkbox" checked="{{inv.consent}}" onChange="{{flipConsent}}" style="width: 18px; height: 18px; margin-top: 2px"><span>{{t.consent}}</span></label>
+<sc-if value="{{invErr}}" hint-placeholder-val="{{false}}"><div style="background: #FCE7DE; color: #9A3412; border-radius: 8px; padding: 10px 12px; font-size: 13px">{{invErr}}</div></sc-if>
+<div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap"><button class="btnp" onClick="{{sendInvite}}">{{t.send}}</button><button class="btn" onClick="{{togglePreview}}" aria-expanded="{{previewOpenStr}}">{{previewLabel}}</button><span class="muted" style="font-size: 12px">{{t.inviteNote}}</span></div>
+<sc-if value="{{previewOpen}}" hint-placeholder-val="{{false}}">
+<div aria-label="Invitation email preview" style="border: 1px solid #E3E6EB; border-radius: 12px; overflow: hidden; background: #F4F5F8">
+<div class="emailhdr" style="background: #FFFFFF; padding: 10px 14px; border-bottom: 1px solid #E3E6EB; font-size: 12px; display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 3px 8px">
+<span class="muted" style="font-size: 12px">From</span><span>Edge Talent Network &lt;referrals@onedge.co&gt;</span>
+<span class="muted" style="font-size: 12px">Reply-to</span><span>{{me.name}} &lt;{{me.email}}&gt;</span>
+<span class="muted" style="font-size: 12px">To</span><span>{{pv.to}}</span>
+<span class="muted" style="font-size: 12px">Subject</span><strong>{{pv.subject}}</strong>
+</div>
+<div style="padding: 18px">
+<div style="max-width: 520px; margin: 0 auto; background: #FFFFFF; border-radius: 12px; overflow: hidden; border: 1px solid #E3E6EB">
+<div style="background: #4B1C8A; padding: 14px 20px; display: flex; align-items: center; gap: 8px"><span style="width: 26px; height: 26px; border-radius: 6px; background: #4B1C8A; color: #FFFFFF; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-family: 'Space Grotesk', sans-serif">E</span><span style="color: #FFFFFF; font-weight: 600">Edge Talent Network</span></div>
+<div style="padding: 20px; display: flex; flex-direction: column; gap: 14px; font-size: 14px">
+<div style="font-family: Inter, sans-serif; letter-spacing: -0.01em; font-size: 20px; font-weight: 600; line-height: 1.25">{{me.name}} thinks you’d be a great fit at Edge</div>
+<div style="background: #F7F8FA; border-left: 3px solid #4B1C8A; border-radius: 6px; padding: 12px 14px; white-space: pre-line">{{pv.msg}}</div>
+<div class="muted" style="font-size: 12px">Personal message from {{me.first}}, a member of Edge’s Talent Network</div>
+<div>Edge connects experienced professionals with remote roles in <strong>Healthcare, Insurance and Accounting</strong>. Ideal candidates have 2–3+ years of relevant experience.</div>
+<div style="text-align: center; padding: 4px 0"><span style="display: inline-block; background: #4B1C8A; color: #FFFFFF; font-weight: 600; padding: 12px 22px; border-radius: 8px">Apply with {{me.first}}’s referral</span><div class="mono" style="font-size: 11px; color: #5B6372; margin-top: 6px">{{pv.link}}</div></div>
+<div style="font-size: 13px"><strong>Your application will need:</strong> a Radius profile with photo, intro video, background and skills, plus an assessment and AI interview. Complete applications are reviewed in about 30 days.</div>
+<div style="font-size: 12px; color: #5B6372; border-top: 1px solid #EEF0F3; padding-top: 12px">Apply using the button above so your application is linked to {{me.first}}. Please use one email address and apply only once. You’re receiving this one-time email because {{me.first}} entered your address and confirmed you agreed to be contacted; we won’t email you again unless you apply. <span style="text-decoration: underline">Don’t contact me again</span></div>
+</div>
+</div>
+</div>
+</div>
+</sc-if>
+<sc-for list="{{invites}}" as="i" hint-placeholder-count="1"><div style="display: flex; justify-content: space-between; gap: 8px; font-size: 13px; padding: 6px 0; border-top: 1px solid #F1F2F5"><span>{{i.email}}</span><span class="muted">{{i.state}}</span></div></sc-for>
+</div>
+</section>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{tab.refs}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start">
+<section class="card stag" style="flex: 1.3 1 440px; padding: 8px 16px">
+<sc-for list="{{refRows}}" as="r" hint-placeholder-count="6">
+<button class="rowbtn" onClick="{{r.pick}}" style="width: 100%; display: grid; grid-template-columns: minmax(0, 1.4fr) auto; gap: 12px; align-items: center; padding: 12px 8px; border: 0; border-bottom: 1px solid #EEF0F3; cursor: pointer; text-align: left; border-radius: 6px; background: {{r.rowBg}}">
+<span><span style="font-weight: 500">{{r.name}}</span><br><span class="muted">{{r.step}} · {{r.bonus}}</span></span>
+<span class="pill" style="background: {{r.bg}}; color: {{r.fg}}">{{r.status}}</span>
+</button>
+</sc-for>
+<div class="muted" style="padding: 12px 8px; font-size: 12px">{{t.missing}}</div>
+</section>
+<section class="card" style="flex: 1 1 340px; display: flex; flex-direction: column; gap: 14px">
+<div><h2 class="h2" style="font-size: 18px">{{sel.name}}</h2><div class="muted">{{t.appliedOn}} {{sel.applied}}</div></div>
+<ol style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px">
+<sc-for list="{{steps}}" as="s" hint-placeholder-count="6"><li style="display: flex; gap: 12px; align-items: center"><span style="flex: none; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; background: {{s.dbg}}; color: {{s.dfg}}; border: 1.5px solid {{s.dbd}}">{{s.n}}</span><span style="font-weight: {{s.fw}}; color: {{s.color}}">{{s.label}}</span></li></sc-for>
+</ol>
+<div style="border-top: 1px solid #EEF0F3; padding-top: 12px; display: flex; flex-direction: column; gap: 6px">
+<div style="font-weight: 600; font-size: 13px">{{t.bonusTracker}}</div>
+<div class="bar"><div style="height: 8px; background: {{sel.barColor}}; width: {{sel.w}}"></div></div>
+<div style="font-size: 13px">{{sel.bonusText}}</div>
+</div>
+<sc-if value="{{sel.hint}}" hint-placeholder-val="{{false}}"><div class="note">{{sel.hint}}</div></sc-if>
+</section>
+</div>
+</sc-if>
+
+<sc-if value="{{tab.client}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start">
+<section class="card" style="flex: 1 1 380px; display: flex; flex-direction: column; gap: 12px">
+<h1 class="h1" style="font-size: 22px">Refer a client to Edge</h1>
+<p class="muted" style="margin: 0">Know a company that needs remote talent in healthcare, insurance or accounting? Introduce them. Once they become a customer, the referral is Qualifying from their start date; after 3 consecutive active months it is approved and paid in the following month’s payout.</p>
+<label class="lbl">Company name<input class="inp" value="{{cl.company}}" onChange="{{setClCompany}}"></label>
+<label class="lbl">Company website<input class="inp" value="{{cl.domain}}" onChange="{{setClDomain}}" placeholder="company.com"></label>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px"><label class="lbl">Contact name<input class="inp" value="{{cl.contact}}" onChange="{{setClContact}}"></label><label class="lbl">Contact email<input class="inp" value="{{cl.email}}" onChange="{{setClEmail}}"></label></div>
+<label class="lbl">How do you know them? What do they need?<textarea class="ta" value="{{cl.note}}" onChange="{{setClNote}}" style="min-height: 70px"></textarea></label>
+<label style="display: flex; gap: 10px; align-items: flex-start; font-size: 13px; cursor: pointer"><input type="checkbox" checked="{{cl.consent}}" onChange="{{flipClConsent}}" style="width: 18px; height: 18px; margin-top: 2px"><span>The contact agreed to be introduced to Edge’s sales team.</span></label>
+<sc-if value="{{clErr}}" hint-placeholder-val="{{false}}"><div style="background: #FCE7DE; color: #9A3412; border-radius: 8px; padding: 10px 12px; font-size: 13px">{{clErr}}</div></sc-if>
+<div><button class="btnp" onClick="{{submitClient}}">Submit client referral</button></div>
+</section>
+<section class="card" style="flex: 1 1 360px; padding: 8px 16px">
+<h2 class="h2" style="padding: 10px 0">Your client referrals</h2>
+<sc-for list="{{clients}}" as="c" hint-placeholder-count="2"><div style="display: flex; flex-direction: column; gap: 6px; padding: 12px 0; border-top: 1px solid #EEF0F3"><div style="display: flex; justify-content: space-between; gap: 8px"><span><strong>{{c.name}}</strong><br><span class="muted">{{c.stage}}</span></span><span class="pill" style="background: {{c.bg}}; color: {{c.fg}}">{{c.status}}</span></div><div class="bar"><div style="height: 8px; background: #4B1C8A; width: {{c.w}}"></div></div><div class="muted" style="font-size: 12px">{{c.meter}}</div></div></sc-for>
+</section>
+</div>
+</sc-if>
+
+<sc-if value="{{tab.rewards}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; flex-direction: column; gap: 16px">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px">
+<div class="card"><div class="muted">{{t.issued}}</div><div style="font-family: Inter, sans-serif; letter-spacing: -0.01em; font-size: 28px; font-weight: 600">{{rw.issued}}</div></div>
+<div class="card"><div class="muted">{{t.expected}}</div><div style="font-family: Inter, sans-serif; letter-spacing: -0.01em; font-size: 28px; font-weight: 600">{{rw.expected}}</div><div class="muted" style="font-size: 12px">{{t.expectedSub}}</div></div>
+<div class="card"><div class="muted">{{t.paidVia}}</div><div style="font-weight: 600; margin-top: 6px">{{me.paidVia}}</div></div>
+</div>
+<section class="card" style="padding: 8px 16px">
+<sc-for list="{{rw.rows}}" as="w" hint-placeholder-count="3"><div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #EEF0F3; flex-wrap: wrap"><span><span style="font-weight: 600">{{w.amount}}</span> · {{w.name}}<br><span class="muted">{{w.detail}}</span></span><span style="display: flex; align-items: center; gap: 8px"><span class="pill" style="background: {{w.bg}}; color: {{w.fg}}">{{w.status}}</span><sc-if value="{{w.canDispute}}" hint-placeholder-val="{{false}}"><button class="btn" onClick="{{w.dispute}}" style="min-height: 32px">{{t.report}}</button></sc-if></span></div></sc-for>
+</section>
+<sc-if value="{{disputeOpen}}" hint-placeholder-val="{{false}}">
+<section class="card" style="display: flex; flex-direction: column; gap: 10px; max-width: 620px">
+<h2 class="h2">{{t.report}} · {{dispute.name}}</h2>
+<div class="muted">{{dispute.window}}</div>
+<label class="lbl">{{t.whatWrong}}<textarea class="ta" value="{{dispute.text}}" onChange="{{setDisputeText}}" style="min-height: 80px"></textarea></label>
+<div style="display: flex; gap: 8px"><button class="btnp" onClick="{{submitDispute}}">{{t.openTicket}}</button><button class="btn" onClick="{{closeDispute}}">{{t.cancel}}</button></div>
+</section>
+</sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{tab.how}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; flex-direction: column; gap: 16px">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px">
+<sc-for list="{{how}}" as="h" hint-placeholder-count="3"><div class="card lift" style="display: flex; flex-direction: column; gap: 8px"><span style="width: 32px; height: 32px; border-radius: 50%; background: #ECE4F7; color: #4B1C8A; display: flex; align-items: center; justify-content: center; font-weight: 700">{{h.n}}</span><span style="font-weight: 600; font-size: 16px">{{h.title}}</span><span class="muted">{{h.text}}</span></div></sc-for>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px">
+<section class="card"><h2 class="h2" style="margin-bottom: 8px">No payment is made if…</h2><sc-for list="{{exclusions}}" as="x" hint-placeholder-count="6"><div style="padding: 6px 0; border-top: 1px solid #F1F2F5; font-size: 13px">{{x}}</div></sc-for></section>
+<section class="card"><h2 class="h2" style="margin-bottom: 8px">Ownership &amp; payout</h2><sc-for list="{{ownership}}" as="x" hint-placeholder-count="6"><div style="padding: 6px 0; border-top: 1px solid #F1F2F5; font-size: 13px">{{x}}</div></sc-for></section>
+</div>
+<section class="card" style="display: flex; flex-direction: column; gap: 6px"><h2 class="h2">Referring for LinkedIn openings or internal positions?</h2><p class="muted" style="margin: 0">Referral links don’t apply to those. Submit through Edge Help Desk › Employee Referrals › Positions Open on LinkedIn or Edge Internal Team.</p></section>
+</div>
+</sc-if>
+
+<sc-if value="{{tab.account}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start">
+<section class="card" style="flex: 1 1 340px; display: flex; flex-direction: column; gap: 10px">
+<h2 class="h2">Account</h2>
+<div><div class="muted">Email (registered with Edge)</div>{{me.email}} <span class="pill" style="background: #D3F0DF; color: #14532D">Verified in Radius</span></div>
+<div><div class="muted">Referral code</div><span class="mono">{{me.code}}</span></div>
+<div><div class="muted">Bonus payments</div>Added to your regular Edge payout in {{me.cur}} ({{me.payLine}}); no separate bank details needed.</div>
+<div class="muted" style="font-size: 12px">You stay eligible while you are active Edge Talent. If you leave Edge before a bonus is processed, it is not paid.</div>
+</section>
+<section class="card" style="flex: 1 1 320px; display: flex; flex-direction: column; gap: 4px">
+<h2 class="h2" style="margin-bottom: 6px">Email notifications</h2>
+<sc-for list="{{prefs}}" as="p" hint-placeholder-count="5"><div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 0; border-top: 1px solid #EEF0F3"><span>{{p.label}}</span><button class="tgl" aria-pressed="{{p.tg.pressed}}" aria-label="{{p.label}}" onClick="{{p.tg.flip}}" style="background: {{p.tg.bg}}"><span class="knob" style="margin-left: {{p.tg.ml}}"></span></button></div></sc-for>
+</section>
+<section class="card" style="flex: 1 1 320px; display: flex; flex-direction: column; gap: 8px">
+<h2 class="h2">Need help?</h2>
+<p class="muted" style="margin: 0">Marketplace Operations handles all referral questions; your RM and HR can’t resolve them.</p>
+<div style="font-size: 13px">Assist ticket: Edge Help Desk › Employee Referrals › Talent Network</div>
+<div style="font-size: 13px">Email: <a href="mailto:marketplaceoperations@onedge.co">marketplaceoperations@onedge.co</a> with the candidate’s full name</div>
+</section>
+</div>
+</sc-if>
+
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{isFriend}}" hint-placeholder-val="{{false}}">
+<div class="pwrap" style="max-width: 1080px; margin: 0 auto; padding: 40px 24px 64px; display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start; box-sizing: border-box">
+<div style="flex: 1.2 1 420px; display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; align-items: center; gap: 10px"><span style="width: 44px; height: 44px; border-radius: 50%; background: #ECE4F7; color: #4B1C8A; display: inline-flex; align-items: center; justify-content: center; font-weight: 700">{{me.ini}}</span><span><strong>{{me.name}}</strong> referred you<br><span class="muted">Edge Talent · {{me.country}}</span></span></div>
+<h1 class="hero-h1" style="margin: 0; font-family: Inter, sans-serif; letter-spacing: -0.01em; font-size: 40px; font-weight: 600; line-height: 1.1">Join Edge’s global Talent Network</h1>
+<p class="hero-p" style="margin: 0; font-size: 17px; color: #3D4452">Remote opportunities in Healthcare, Insurance and Accounting. Ideal candidates have 2–3+ years of relevant experience and meet each role’s location requirements.</p>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px">
+<sc-for list="{{perks}}" as="p" hint-placeholder-count="4"><div class="card lift" style="padding: 16px; display: flex; flex-direction: column; gap: 6px"><span style="width: 34px; height: 34px; border-radius: 10px; background: #ECE4F7; color: #4B1C8A; display: inline-flex; align-items: center; justify-content: center" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="{{p.icon}}"></path></svg></span><strong>{{p.title}}</strong><span class="muted">{{p.text}}</span></div></sc-for>
+</div>
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div style="font-weight: 600">Your path to your first role</div>
+<sc-for list="{{friendSteps}}" as="f" hint-placeholder-count="3"><div style="display: flex; gap: 12px; align-items: flex-start"><span style="flex: none; width: 28px; height: 28px; border-radius: 50%; background: #14171F; color: #FFFFFF; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700">{{f.n}}</span><span><strong>{{f.title}}</strong><br><span class="muted">{{f.text}}</span></span></div></sc-for>
+</div>
+</div>
+<section class="card" style="flex: 1 1 360px; padding: 28px; display: flex; flex-direction: column; gap: 12px">
+<sc-if value="{{friendDone}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; flex-direction: column; gap: 10px"><span class="pill" style="align-self: flex-start; background: #D3F0DF; color: #14532D">Application started</span><h2 class="h2" style="font-size: 20px">Next: complete your Radius profile</h2><p class="muted" style="margin: 0">We emailed {{friend.email}} a link to finish your profile, assessment and AI interview. Check your spam folder too.</p><div><button class="btn demo" onClick="{{friendReset}}">Start over</button></div></div>
+</sc-if>
+<sc-if value="{{friendForm}}" hint-placeholder-val="{{true}}">
+<div style="display: flex; flex-direction: column; gap: 12px">
+<h2 class="h2" style="font-size: 20px">Apply with {{me.first}}’s referral</h2>
+<label class="lbl">Full name<input class="inp" value="{{friend.name}}" onChange="{{setFrName}}"></label>
+<label class="lbl">Email (use one email and apply only once)<input class="inp" value="{{friend.email}}" onChange="{{setFrEmail}}"></label>
+<sc-if value="{{friendErr}}" hint-placeholder-val="{{false}}"><div style="background: #FCE7DE; color: #9A3412; border-radius: 8px; padding: 10px 12px; font-size: 13px">{{friendErr}}</div></sc-if>
+<button class="btnp" onClick="{{friendSubmit}}">Start application</button>
+<span class="muted" style="font-size: 12px">Referral code {{me.code}} is attached to this application. {{me.first}} will see whether your application is pending, approved or denied, but not your details or results.</span>
+</div>
+</sc-if>
+</section>
+</div>
+</sc-if>
+
+</div>
+</x-dc>
+</script>
+<script type="text/x-dc" id="dc-logic" data-props='{"$preview":{"width":1440,"height":1400}}'>
+var TODAY = '2026-11-20';
+var STEPS = ['Application', 'Review', 'Edge Edu training', 'Marketplace', 'Selected by a customer', 'Working with customer'];
+var MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+var COL = { Pending: ['#FEF3C7', '#854D0E'], Qualifying: ['#E2ECFD', '#1D4ED8'], Approved: ['#D3F0DF', '#14532D'], Denied: ['#FCE7DE', '#9A3412'], paid: ['#D3F0DF', '#14532D'], expected: ['#E2ECFD', '#1D4ED8'], none: ['#EEF0F3', '#3D4452'] };
+var T = {
+  en: { brand: 'Edge Talent Referral Program', tabs: ['My Dashboard', 'My Referrals', 'Refer a client', 'My Payments', 'How it works', 'Account'], programTitle: 'Edge Talent Referral Program', programText: 'Anyone who applies through your unique link is added to your account, and you can follow their status here.', bonusLabel: 'Referral payment', bonusSub: 'paid once your referral is approved, after 3 consecutive months of active work with their first customer', closest: 'Closest to approval', share: 'Start sharing: it’s easy', invite: 'Invite by email', friendEmail: 'Their email', message: 'Message', consent: 'This person knows me and agreed that I can share their email with Edge for this invitation.', send: 'Send invitation', inviteNote: 'They become your referral when they apply with your link.', missing: 'Not seeing someone? They must apply using your link; applications without it can’t be added later.', appliedOn: 'Applied', bonusTracker: 'Approval meter', issued: 'Payments received', expected: 'Expected once approved', expectedSub: 'paid in the month after approval', paidVia: 'Paid through', paidViaText: 'Your regular Edge payout, in PEN', report: 'Report a missing payment', whatWrong: 'What’s wrong?', openTicket: 'Open Assist ticket', cancel: 'Cancel' },
+  es: { brand: 'Programa de Referidos de Edge', tabs: ['Mi panel', 'Mis referidos', 'Referir un cliente', 'Mis pagos', 'Cómo funciona', 'Cuenta'], programTitle: 'Programa de Referidos de Edge', programText: 'Quien postule con tu enlace único se agrega a tu cuenta y puedes seguir su estado aquí.', bonusLabel: 'Pago por referido', bonusSub: 'se paga cuando tu referido es aprobado, tras 3 meses consecutivos de trabajo activo', closest: 'Más cerca de la aprobación', share: 'Empieza a compartir', invite: 'Invitar por correo', friendEmail: 'Su correo', message: 'Mensaje', consent: 'Esta persona me conoce y aceptó que comparta su correo con Edge para esta invitación.', send: 'Enviar invitación', inviteNote: 'Se vuelve tu referido cuando postula con tu enlace.', missing: '¿No ves a alguien? Debe postular con tu enlace; no se pueden agregar después.', appliedOn: 'Postuló', bonusTracker: 'Medidor de aprobación', issued: 'Pagos recibidos', expected: 'Esperado al aprobarse', expectedSub: 'se paga el mes siguiente a la aprobación', paidVia: 'Pagado en', paidViaText: 'Tu pago regular de Edge, en PEN', report: 'Reportar pago faltante', whatWrong: '¿Qué ocurrió?', openTicket: 'Abrir ticket Assist', cancel: 'Cancelar' }
+};
+function pad(x) { return (x < 10 ? '0' : '') + x; }
+function addMonths(s, n) { var y = +s.slice(0, 4), m = +s.slice(5, 7) - 1 + n, d = +s.slice(8, 10); var ty = y + Math.floor(m / 12), tm = ((m % 12) + 12) % 12; var last = new Date(Date.UTC(ty, tm + 1, 0)).getUTCDate(); return ty + '-' + pad(tm + 1) + '-' + pad(Math.min(d, last)); }
+function days(a, b) { return Math.round((new Date(b + 'T00:00:00Z') - new Date(a + 'T00:00:00Z')) / 86400000); }
+function fmt(d) { if (!d) return '—'; var p = d.slice(0, 10).split('-'); return MON[+p[1] - 1] + ' ' + (+p[2]) + ', ' + p[0]; }
+function ml(ym) { return MON[+ym.slice(5, 7) - 1] + ' ' + ym.slice(0, 4); }
+function col(k) { var c = COL[k] || COL.none; return { bg: c[0], fg: c[1] }; }
+function tog(on, flip) { return { pressed: on ? 'true' : 'false', bg: on ? '#4B1C8A' : '#C9CED6', ml: on ? '16px' : '0px', flip: flip }; }
+function normEmail(e) { e = (e || '').trim().toLowerCase(); var p = e.split('@'); if (p.length !== 2) return e; var u = p[0].split('+')[0]; if (p[1] === 'gmail.com') u = u.replace(/\./g, ''); return u + '@' + p[1]; }
+var PROFILES = {
+  pe: { name: 'Lucía Ramírez', first: 'Lucía', ini: 'LR', email: 'lucia.ramirez@example.com', code: 'PE-LUCIA3', country: 'Peru', cur: 'PEN', ft: 500, pt: 500, clicks: 63 },
+  pk: { name: 'Ayesha Khan', first: 'Ayesha', ini: 'AK', email: 'ayesha.khan@example.com', code: 'PK-AYESHA7', country: 'Pakistan', cur: 'USD', ft: 150, pt: 50, clicks: 48 }
+};
+var DATA = {
+  pe: { refs: [
+    { id: 'R-1017', name: 'Diego Ruiz', email: 'diego.ruiz@example.com', applied: '2026-08-28', step: 5, status: 'Qualifying', start: '2026-10-15', hours: 'Full-time' },
+    { id: 'R-1018', name: 'Sofía Paredes', email: 'sofia.paredes@example.com', applied: '2026-09-16', step: 5, status: 'Qualifying', start: '2026-11-03', hours: 'Part-time' },
+    { id: 'R-1009', name: 'Mateo Flores', email: 'mateo.flores@example.com', applied: '2026-09-30', step: 3, status: 'Pending' },
+    { id: 'R-1010', name: 'Camila Rojas', email: 'camila.rojas@example.com', applied: '2026-11-01', step: 0, status: 'Pending', dormant: true },
+    { id: 'R-1008', name: 'Valeria Quispe', email: 'valeria.quispe@example.com', applied: '2026-05-15', step: 5, status: 'Approved', start: '2026-07-06', hours: 'Full-time', legacy: true, approved: '2026-10-06', paid: '2026-11-05' }
+  ], clients: [{ name: 'Harbor Insurance Group', domain: 'harborins.example', stage: 'Proposal sent', status: 'Pending' }], sel: 'R-1017' },
+  pk: { refs: [
+    { id: 'R-1001', name: 'Usman Tariq', email: 'usman.tariq@example.com', applied: '2026-08-14', step: 5, status: 'Qualifying', start: '2026-10-01', hours: 'Full-time' },
+    { id: 'R-1022', name: 'Hira Batool', email: 'hira.batool@example.com', applied: '2026-07-20', step: 5, status: 'Qualifying', start: '2026-09-15', hours: 'Part-time' },
+    { id: 'R-1004', name: 'Omar Sheikh', email: 'omar.sheikh@example.com', applied: '2026-09-20', step: 4, status: 'Pending' },
+    { id: 'R-1002', name: 'Fatima Noor', email: 'fatima.noor@example.com', applied: '2026-10-05', step: 2, status: 'Pending' },
+    { id: 'R-1003', name: 'Zainab Ali', email: 'zainab.ali@example.com', applied: '2026-10-28', step: 0, status: 'Pending', dormant: true },
+    { id: 'R-1023', name: 'Kashif Mehmood', email: 'kashif.mehmood@example.com', applied: '2026-05-02', step: 5, status: 'Approved', start: '2026-06-10', hours: 'Part-time', legacy: true, approved: '2026-09-10', paid: '2026-11-05' }
+  ], clients: [{ name: 'Northwind Clinics', domain: 'northwind.example', stage: 'Active customer since Aug 15', status: 'Approved', w: '100%', meter: 'Approved Nov 15 · USD 150 (full-time placement) in the Dec 2026 payout' }], sel: 'R-1022' }
+};
+function amtOf(r, P) { return r.hours === 'Part-time' ? P.pt : P.ft; }
+function amtText(r, P) { return P.cur + ' ' + amtOf(r, P) + (P.ft !== P.pt ? ' (' + (r.hours || 'Full-time').toLowerCase() + ')' : ''); }
+function inviteMsg(P) { return 'Hi! I found remote work through Edge and it has been a great experience. Edge offers global exposure, upskilling and competitive pay. I think you’d do well here. Apply with my link: https://referral.onedge.co/l/' + P.code; }
+function bonusOf(r, P) {
+  if (r.status === 'Denied') return { key: 'none', text: 'This referral couldn’t move forward, so no payment is due.', short: 'No payment', w: 0 };
+  if (r.legacy) return { key: 'paid', text: 'Approved ' + fmt(r.approved) + ' and paid ' + amtText(r, P) + ' on ' + fmt(r.paid) + '.', short: 'Approved · paid', w: 100, paid: r.paid };
+  if (!r.start) return { key: 'none', text: 'The approval meter starts when they begin working with a customer.' + (P.ft !== P.pt ? ' Payment: ' + P.cur + ' ' + P.ft + ' if full-time, ' + P.cur + ' ' + P.pt + ' if part-time.' : ''), short: 'Meter not started', w: 0 };
+  var q = addMonths(r.start, 3);
+  if (r.ended) return { key: 'none', text: 'Their first customer engagement ended before three consecutive months, so the referral can’t be approved.', short: 'Not approved', w: 0 };
+  var tot = days(r.start, q), done = Math.max(0, days(r.start, TODAY)); var pct = Math.min(100, Math.round(done / tot * 100));
+  var pay = addMonths(q.slice(0, 7) + '-01', 1).slice(0, 7);
+  return { key: 'expected', text: 'Qualifying: day ' + done + ' of ' + tot + ' since their start date. If they’re still with this customer on ' + fmt(q) + ', the referral is approved and ' + amtText(r, P) + ' goes into the ' + ml(pay) + ' payout (you must still be active Edge Talent then).', short: pct + '% to approval', w: pct, q: q, pay: pay };
+}
+
+class Component extends DCLogic {
+  constructor(a, b, c) {
+    super(a, b, c);
+    this.state = {
+      persona: 'member', who: 'pe', saved: {}, lang: 'en', tab: 'home', toast: '', copied: false, sel: 'R-1017',
+      refs: JSON.parse(JSON.stringify(DATA.pe.refs)),
+      inv: { email: '', msg: inviteMsg(PROFILES.pe), consent: false }, invErr: '', invites: [],
+      prefs: { notif: true, cert: true, approved: true, bonus: true, monthly: false },
+      disputeFor: '', dText: '', previewOpen: false,
+      clients: JSON.parse(JSON.stringify(DATA.pe.clients)), cl: { company: '', domain: '', contact: '', email: '', note: '', consent: false }, clErr: '',
+      friend: { name: '', email: '', former: 'no' }, friendDone: false, friendErr: ''
+    };
+  }
+  renderVals() {
+    var self = this, s = this.state, t = T[s.lang];
+    var P = PROFILES[s.who]; var link = 'https://referral.onedge.co/l/' + P.code;
+    var me = { name: P.name, first: P.first, ini: P.ini, email: P.email, code: P.code, country: P.country, cur: P.cur, split: P.ft !== P.pt, payBig: P.ft === P.pt ? P.cur + ' ' + P.ft : P.cur + ' ' + P.ft + ' / ' + P.pt, paidVia: 'Your regular Edge payout, in ' + P.cur, payLine: P.ft === P.pt ? P.cur + ' ' + P.ft + ' per approved referral' : P.cur + ' ' + P.ft + ' full-time, ' + P.cur + ' ' + P.pt + ' part-time' };
+    var switchTo = function (w) { if (w === s.who) return; var saved = Object.assign({}, s.saved); saved[s.who] = { refs: s.refs, clients: s.clients, invites: s.invites, sel: s.sel }; var d = saved[w] || { refs: JSON.parse(JSON.stringify(DATA[w].refs)), clients: JSON.parse(JSON.stringify(DATA[w].clients)), invites: [], sel: DATA[w].sel }; self.setState({ who: w, saved: saved, refs: d.refs, clients: d.clients, invites: d.invites, sel: d.sel, inv: { email: '', msg: inviteMsg(PROFILES[w]), consent: false }, invErr: '', disputeFor: '', copied: false, toast: '', persona: s.persona === 'friend' ? 'friend' : 'member' }); };
+    var set = function (obj, k, extra) { return function (e) { var o = Object.assign({}, s[obj]); o[k] = e.target.value; var p = {}; p[obj] = o; Object.assign(p, extra || {}); self.setState(p); }; };
+    var keys = ['home', 'refs', 'client', 'rewards', 'how', 'account']; var tab = {}; keys.forEach(function (k) { tab[k] = s.tab === k; });
+    var withB = s.refs.map(function (r) { return { r: r, b: bonusOf(r, P) }; });
+    var sel = withB.filter(function (x) { return x.r.id === s.sel; })[0] || withB[0];
+    var exp = withB.filter(function (x) { return x.b.key === 'expected'; }).sort(function (a, b) { return b.b.w - a.b.w; });
+    var paid = withB.filter(function (x) { return x.b.key === 'paid'; });
+    var existing = ['valeria.quispe@example.com', 'maria.gonzales@example.com'];
+    var stepLabel = function (r) { return r.dormant ? 'Application (incomplete)' : STEPS[r.step]; };
+    var hintFor = function (r) { if (r.dormant) return 'Their application isn’t complete yet, so it isn’t being processed. Remind them to finish their Radius profile (photo, intro video, background, skills), assessment and AI interview.'; if (r.step === 2) return 'They’re in Edge Edu certification. They received instructions by email; remind them to check spam.'; if (r.step === 3) return 'Placement timing depends on customer demand and fit; it isn’t guaranteed.'; return ''; };
+    var dTarget = withB.filter(function (x) { return x.r.id === s.disputeFor; })[0];
+    return {
+      personas: [['pe', 'member', 'Lucía · Peru (PEN)'], ['pk', 'member', 'Ayesha · Pakistan (USD)'], [s.who, 'friend', 'Candidate page (' + P.first + '’s link)']].map(function (p) { var a = s.persona === p[1] && s.who === p[0]; return { label: p[2], bg: a ? '#FFFFFF' : '#262B36', fg: a ? '#14171F' : '#D5DAE3', fw: a ? '600' : '500', pick: function () { if (p[0] !== s.who) switchTo(p[0]); self.setState({ persona: p[1], toast: '' }); } }; }),
+      me: me,
+      goRefs: function () { self.setState({ tab: 'refs' }); },
+      glance: withB.slice().sort(function (a, b) { var rk = { Qualifying: 0, Pending: 1, Approved: 2, Denied: 3 }; return (rk[a.r.status] - rk[b.r.status]) || (b.b.w - a.b.w); }).slice(0, 5).map(function (x) { var c = col(x.r.status);
+        return { name: x.r.name, step: stepLabel(x.r), status: x.r.status, bg: c.bg, fg: c.fg, hasMeter: x.r.status === 'Qualifying' || x.b.key === 'paid', w: x.b.w + '%', color: x.b.key === 'paid' ? '#1E6B3F' : '#4B1C8A', meter: x.b.key === 'paid' ? 'Paid ' + amtText(x.r, P) : 'approves ' + fmt(x.b.q).replace(/, \d{4}$/, '') + ' · ' + amtText(x.r, P), open: function () { self.setState({ tab: 'refs', sel: x.r.id }); } }; }),
+      isMember: s.persona === 'member', isFriend: s.persona === 'friend', toast: s.toast, clearToast: function () { self.setState({ toast: '' }); },
+      t: t, langLabel: s.lang === 'en' ? 'Español' : 'English', toggleLang: function () { self.setState({ lang: s.lang === 'en' ? 'es' : 'en' }); },
+      tabs: keys.map(function (k, i) { var a = s.tab === k; return { label: t.tabs[i], bg: a ? '#ECE4F7' : 'transparent', fg: a ? '#4B1C8A' : '#3D4452', fw: a ? '600' : '500', pick: function () { self.setState({ tab: k }); } }; }), tab: tab,
+      stats: [{ label: 'Referral link clicks', value: P.clicks, sub: 'all time' }, { label: 'Referrals', value: s.refs.length, sub: s.refs.filter(function (r) { return r.status === 'Pending'; }).length + ' pending' }, { label: 'Qualifying', value: s.refs.filter(function (r) { return r.status === 'Qualifying'; }).length, sub: 'working, meter running' }, { label: 'Approved', value: s.refs.filter(function (r) { return r.status === 'Approved'; }).length, sub: '3 months done · payment due' }, { label: 'Payments received', value: paid.length, sub: P.cur + ' ' + paid.reduce(function (a, x) { return a + amtOf(x.r, P); }, 0) }],
+      nextBonus: exp[0] ? { has: true, name: exp[0].r.name, when: 'approved ' + fmt(exp[0].b.q), w: exp[0].b.w + '%', payout: 'Would be paid in the ' + ml(exp[0].b.pay) + ' payout' } : { has: false },
+      link: link, copyLabel: s.copied ? 'Copied ✓' : 'Copy link', copyCls: s.copied ? 'copied' : '', copy: function () { try { navigator.clipboard.writeText(link); } catch (e) {} self.setState({ copied: true }); },
+      shareBtns: ['WhatsApp', 'Facebook', 'X', 'LinkedIn', 'Other apps'].map(function (n) { return { label: n, pick: function () { self.setState({ toast: 'Opening ' + n + ' with your link (demo)' }); } }; }),
+      inv: s.inv, invErr: s.invErr, setInvEmail: set('inv', 'email', { invErr: '' }), setInvMsg: set('inv', 'msg'),
+      flipConsent: function () { self.setState({ inv: Object.assign({}, s.inv, { consent: !s.inv.consent }), invErr: '' }); },
+      sendInvite: function () { var e = normEmail(s.inv.email); if (e.indexOf('@') < 1) return self.setState({ invErr: 'Enter a valid email.' }); if (!s.inv.consent) return self.setState({ invErr: 'Please confirm they agreed to be contacted.' }); if (e === P.email) return self.setState({ invErr: 'You can’t refer yourself.' }); if (s.invites.some(function (i) { return normEmail(i.email) === e; })) return self.setState({ invErr: 'You already invited this person.' });
+        self.setState({ invites: [{ email: s.inv.email.trim(), state: 'Invited ' + fmt(TODAY).slice(0, 6) + ' · not applied yet' }].concat(s.invites), inv: Object.assign({}, s.inv, { email: '', consent: false }), toast: 'Invitation sent. They’ll appear under My Referrals once they apply with your link.' }); },
+      invites: s.invites,
+      previewOpen: s.previewOpen, previewOpenStr: s.previewOpen ? 'true' : 'false', previewLabel: s.previewOpen ? 'Hide preview' : 'Preview email', togglePreview: function () { self.setState({ previewOpen: !s.previewOpen }); },
+      pv: { to: s.inv.email.trim() || 'their email address', subject: P.name + ' invited you to join Edge’s Talent Network', msg: s.inv.msg, link: link + '?utm_source=invite' },
+      refRows: withB.map(function (x) { var c = col(x.r.status); return { name: x.r.name, step: stepLabel(x.r), bonus: x.b.short, status: x.r.status, bg: c.bg, fg: c.fg, rowBg: x.r.id === sel.r.id ? '#F6F1FC' : '#FFFFFF', pick: function () { self.setState({ sel: x.r.id }); } }; }),
+      sel: { name: sel.r.name, applied: fmt(sel.r.applied), w: sel.b.w + '%', barColor: sel.b.key === 'paid' ? '#1E6B3F' : '#4B1C8A', bonusText: sel.b.text, hint: hintFor(sel.r) },
+      steps: STEPS.map(function (st, i) { var done = i < sel.r.step || (i === sel.r.step && sel.r.status !== 'Denied'); var cur = i === sel.r.step; return { n: i + 1, label: st + (cur && sel.r.dormant ? ' (incomplete)' : ''), dbg: done ? '#14171F' : '#FFFFFF', dfg: done ? '#FFFFFF' : '#5B6372', dbd: done ? '#14171F' : '#C9CED6', color: done ? '#14171F' : '#5B6372', fw: cur ? '600' : '400' }; }),
+      rw: { issued: P.cur + ' ' + paid.reduce(function (a, x) { return a + amtOf(x.r, P); }, 0), expected: P.cur + ' ' + exp.reduce(function (a, x) { return a + amtOf(x.r, P); }, 0),
+        rows: paid.concat(exp).map(function (x) { var c = col(x.b.key); var payDate = x.b.paid; var inWin = payDate && days(payDate, TODAY) <= 14;
+          return { amount: amtText(x.r, P), name: x.r.name, detail: x.b.key === 'paid' ? 'Paid in the ' + ml(x.b.paid.slice(0, 7)) + ' payout · report problems within 14 days' + (inWin ? ' (until ' + fmt(new Date(Date.parse(payDate + 'T00:00:00Z') + 14 * 86400000).toISOString().slice(0, 10)) + ')' : '') : 'Approves ' + fmt(x.b.q) + ' · ' + ml(x.b.pay) + ' payout', status: x.b.key === 'paid' ? 'Paid' : 'On the meter', bg: c.bg, fg: c.fg,
+            canDispute: !!inWin, dispute: function () { self.setState({ disputeFor: x.r.id, dText: '' }); } }; }) },
+      disputeOpen: !!dTarget, dispute: dTarget ? { name: dTarget.r.name, window: 'Payout date Nov 5, 2026 · you have until Nov 19, 2026 (14 days) to raise this.', text: s.dText } : {},
+      setDisputeText: function (e) { self.setState({ dText: e.target.value }); }, closeDispute: function () { self.setState({ disputeFor: '' }); },
+      submitDispute: function () { if (!s.dText.trim()) return self.setState({ toast: 'Describe what’s missing first.' }); self.setState({ disputeFor: '', toast: 'Assist ticket AST-' + (47400 + s.refs.length) + ' opened with Marketplace Operations. You’ll get a reply by email.' }); },
+      how: [{ n: 1, title: 'Share your link', text: 'Candidates must apply on talent.onedge.co using your link. You get a Referral Notification email for each one.' }, { n: 2, title: 'They go through the Talent Journey', text: 'Screening, Edge Edu training, interviews and onboarding. When they start with a customer, the referral becomes Qualifying and the approval meter begins. Qualifying is not a guarantee of payment.' }, { n: 3, title: 'Approved after 3 months, then paid', text: 'When they complete 3 consecutive months of active work with their first customer, the referral is approved and its payment (' + me.payLine.replace(' per approved referral', '') + ') goes into the following month’s payout.' }],
+      exclusions: ['They resign, or are terminated for performance, attendance or conduct, before 3 months', 'The customer ends the engagement early, or it never officially begins', 'They move to a different customer before 3 months', 'A temporary assignment is shorter than 3 months or isn’t completed', 'They withdraw, decline the opportunity or never start', 'The referral is a duplicate, invalid or improperly submitted'],
+      ownership: ['The first valid, system-recorded referral wins', 'Candidates who applied without your link can’t be claimed later', 'One payment per candidate', 'Former Edge Talent can’t be referred', 'Both of you must still be active when the payment is processed', 'Marketplace Operations’ decision on eligibility is final'],
+      prefs: [['notif', 'Referral Notification (new application)'], ['cert', 'Certification enrollment'], ['approved', 'Customer start date set'], ['bonus', 'Referral approved and paid'], ['monthly', 'Monthly summary']].map(function (p) { return { label: p[1], tg: tog(s.prefs[p[0]], function () { var o = Object.assign({}, s.prefs); o[p[0]] = !o[p[0]]; self.setState({ prefs: o }); }) }; }),
+      perks: [
+        { title: 'Work remotely', text: 'Build your career with international customers from home, no relocation needed.', icon: 'M3 12l9-8 9 8M5 10v10h14V10' },
+        { title: 'Global exposure', text: 'Work alongside international teams in Healthcare, Insurance and Accounting.', icon: 'M12 3a9 9 0 1 0 0 18a9 9 0 1 0 0-18M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18' },
+        { title: 'Grow your skills', text: 'Get certified through Edge Edu training before you start with a customer.', icon: 'M4 19V5h11l5 5v9zM9 13h6M9 17h4' },
+        { title: 'Competitive pay', text: 'Competitive compensation, with ongoing support from the Edge team.', icon: 'M12 3v18M17 7H9.5a3 3 0 0 0 0 6h5a3 3 0 0 1 0 6H6' }
+      ],
+      friendSteps: [{ n: 1, title: 'Apply in minutes', text: 'Create your Radius profile with a short intro video, then complete the assessment and AI interview.' }, { n: 2, title: 'Get certified', text: 'Complete Edge Edu training for your role.' }, { n: 3, title: 'Get matched', text: 'Join the Marketplace and start working with a customer that fits your skills.' }],
+      friend: s.friend, friendDone: s.friendDone, friendForm: !s.friendDone, friendErr: s.friendErr,
+      setFrName: set('friend', 'name', { friendErr: '' }), setFrEmail: set('friend', 'email', { friendErr: '' }), setFrFormer: set('friend', 'former', { friendErr: '' }),
+      friendSubmit: function () { var e = normEmail(s.friend.email); if (!s.friend.name.trim() || e.indexOf('@') < 1) return self.setState({ friendErr: 'Enter your name and a valid email.' });
+        if (existing.indexOf(e) >= 0 || s.refs.some(function (r) { return normEmail(r.email) === e; })) return self.setState({ friendErr: 'You already have an Edge application with this email. Sign in to continue it; a new referral can’t be added to it.' });
+        var former = ['jose.vargas@example.com', 'farah.naz@example.com'].indexOf(e) >= 0;
+        self.setState({ friendDone: true, refs: former ? s.refs : s.refs.concat([{ id: 'R-' + (1100 + s.refs.length), name: s.friend.name.trim(), email: e, applied: TODAY, step: 0, status: 'Pending', dormant: true }]), toast: former ? 'Application started. (Demo note: Radius matched this email to former Edge Talent, so no referral is recorded for ' + P.first + '; the candidate is not shown this.)' : 'Application started. ' + P.first + ' got a Referral Notification email; it now shows in her portal.' }); },
+      cl: s.cl, clErr: s.clErr, setClCompany: set('cl', 'company', { clErr: '' }), setClDomain: set('cl', 'domain', { clErr: '' }), setClContact: set('cl', 'contact'), setClEmail: set('cl', 'email', { clErr: '' }), setClNote: set('cl', 'note'),
+      flipClConsent: function () { self.setState({ cl: Object.assign({}, s.cl, { consent: !s.cl.consent }), clErr: '' }); },
+      submitClient: function () { var c = s.cl; var d = c.domain.trim().toLowerCase().replace(/^https?:\/\//, '').replace(/^www\./, '').replace(/\/.*$/, ''); if (!c.company.trim() || !d || c.email.indexOf('@') < 1) return self.setState({ clErr: 'Add the company, its website and a contact email.' }); if (!c.consent) return self.setState({ clErr: 'Please confirm the contact agreed to an introduction.' }); if (['summitdental.example', 'northwind.example'].indexOf(d) >= 0 || s.clients.some(function (x) { return x.domain === d; })) return self.setState({ clErr: 'This company is already an Edge customer or already referred, so it can’t be credited again.' }); self.setState({ clients: [{ name: c.company.trim(), domain: d, stage: 'Lead submitted', status: 'Pending' }].concat(s.clients), cl: { company: '', domain: '', contact: '', email: '', note: '', consent: false }, toast: 'Thanks! Edge’s sales team will reach out to ' + c.company.trim() + '.' }); },
+      clients: s.clients.map(function (c) { var cc = col(c.status); return { name: c.name, stage: c.stage, status: c.status, bg: cc.bg, fg: cc.fg, w: c.w || '0%', meter: c.meter || 'Qualifying starts on their start date as a customer.' }; }),
+      friendReset: function () { self.setState({ friendDone: false, friend: { name: '', email: '', former: 'no' } }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Critical review of the referral prototype</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="dc-lite.js" defer></script>
+</head>
+<body>
+<div id="app"></div>
+<script type="text/x-dc-template" id="dc-template">
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div style="width: 1440px; min-height: 2500px; box-sizing: border-box; padding: 64px; background: #F4F5F8; font-family: Inter, system-ui, sans-serif; color: #14171F; font-size: 14px; line-height: 1.45; display: flex; flex-direction: column; gap: 28px">
+<div style="display: flex; flex-direction: column; gap: 8px; max-width: 1000px">
+<div style="font-size: 13px; font-weight: 600; color: #1F43B8; text-transform: uppercase; letter-spacing: 0.08em">Checked against Talent Referral Program policy v1.0 (effective Oct 1, 2026)</div>
+<h1 style="margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 44px; font-weight: 600; line-height: 1.1">Critical review: what was wrong and what changed</h1>
+<p style="margin: 0; font-size: 17px; color: #3D4452">{{fixedCount}} issues fixed in the prototype, {{openCount}} need a decision. Several of these would pass a demo and fail in production: money paid too early, payments made twice, or referrals claimed after the fact.</p>
+</div>
+<sc-for list="{{groups}}" as="g" hint-placeholder-count="3">
+<section style="display: flex; flex-direction: column; gap: 12px">
+<h2 style="margin: 0; font-size: 20px; font-weight: 600">{{g.title}}</h2>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px">
+<sc-for list="{{g.items}}" as="i" hint-placeholder-count="6">
+<div style="background: #FFFFFF; border: 1px solid #E3E6EB; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; justify-content: space-between; gap: 8px; align-items: flex-start"><span style="font-weight: 600">{{i.title}}</span><span style="flex: none; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; background: {{i.bg}}; color: {{i.fg}}">{{i.tag}}</span></div>
+<span style="font-size: 13px; color: #3D4452">{{i.problem}}</span>
+<span style="font-size: 13px"><strong>Change:</strong> {{i.fix}}</span>
+</div>
+</sc-for>
+</div>
+</section>
+</sc-for>
+</div>
+</x-dc>
+</script>
+<script type="text/x-dc" id="dc-logic" data-props='{"$preview":{"width":1440,"height":2500}}'>
+var F = ['Fixed', '#D3F0DF', '#14532D'], D = ['Decision needed', '#FEF3C7', '#854D0E'];
+function it(t, p, f, s) { return { title: t, problem: p, fix: f, tag: s[0], bg: s[1], fg: s[2] }; }
+var GROUPS = [
+  { title: 'Policy alignment: when money is owed', items: [
+    it('Payments fired far too early', 'Rewards triggered at “Qualified”. The policy pays once, only after 3 consecutive months of active work with the first customer.', 'An approval meter starts on the start date, completes by calendar months (Jan 31 → Apr 30), approves the referral, and the single payment goes into the following month’s payout.', F),
+    it('“Approved” must never be a promise', 'Calling someone Approved when they merely started reads as “you will get paid”, which becomes untrue if they leave before 3 months. The policy document still uses Approved for “selected with a start date”.', 'New status Qualifying covers the 3 months from the start date; Approved now means the months are done and payment is due. Update the policy text to match.', F),
+    it('No re-check at payout time', 'Policy requires the referred Talent to still be engaged, and the referrer to still be active, when the bonus is processed.', 'Batch release re-checks every bonus and holds or forfeits those that fail.', F),
+    it('Effective-date boundary ignored', 'Policy v1.0 applies only if approval AND engagement start are on or after Oct 1, 2026. E.g. approved Sep 23, started Oct 1 = old terms.', 'Each referral is stamped with a policy version; legacy ones are excluded from automatic bonuses.', F),
+    it('Editing rules rewrote past promises', 'Changing a reward amount would silently change what in-flight referrals are owed.', 'Program changes are drafts, published as a new version with a future effective date.', F),
+    it('Temporary and moved placements', 'A move to a different customer, or a temporary assignment under 3 months, must void the bonus.', 'Engagement end reasons and temporary end dates feed the eligibility engine.', F)
+  ] },
+  { title: 'Attribution and fraud', items: [
+    it('Retroactive claims were possible', 'Admin “add on behalf”, the recruiter portal and reassignment let referrals be attached after the candidate applied, which the policy forbids.', 'Removed on-behalf entry and the recruiter portal. Help Desk referrals are checked against the Radius application date. Reassigning needs a ticket and proof of the first valid record.', F),
+    it('Manual status changes, controlled', 'Editable statuses are needed to fix records, but unchecked they create payouts for work that never happened, or pay twice for referrals already paid in Referral Rock.', 'Single and bulk changes need a reason and are audited. Approving has an explicit “trigger payout” toggle (off for amendments), one payment per candidate is still enforced, and paid records are never silently reversed.', F),
+    it('One payment per referral, not per person', 'Two referrals of the same person or company (two members, or a re-application) could each pay out.', 'Payments are unique per Radius profile ID (talent) or company domain (customers).', F),
+    it('Easy duplicate emails', 'Case, Gmail dots and +aliases let one person apply as several.', 'Emails are normalised before every duplicate check.', F),
+    it('Former Talent and self-referrals', 'Both are excluded by policy; the prototype only flagged self-referrals loosely.', 'Former Talent are blocked at application and signup; self-referral matches on name, phone, payout account and device.', F),
+    it('Members typed in candidates directly', 'Under the policy a referral exists only when the candidate applies through the link; typed-in referrals invite disputes and consent problems.', 'Replaced with invite-by-email (with consent). The referral is created on application.', F)
+  ] },
+  { title: 'Controls, data and operations', items: [
+    it('Webhook replays could double-count', 'Radius retries or out-of-order events would advance stages twice or re-trigger payouts.', 'Events are idempotent by event ID and applied in event-time order; “Replay last webhook” demonstrates it.', F),
+    it('One person could approve and pay', 'The same admin verified bonuses and released payouts.', 'Two-person rule: whoever prepares a batch cannot release it; Finance has a payout-approver role.', F),
+    it('Managers saw every country', 'Program scoping did not apply to search, member detail or exports.', 'Role scoping applies everywhere, including search and CSV export.', F),
+    it('CSV export was injectable', 'Names starting with = + - @ execute as formulas in Excel; Spanish accents broke without a BOM.', 'Cells are formula-escaped, the file is UTF-8 with BOM, and every export is logged.', F),
+    it('Collected bank details for no reason', 'Bonuses go into the regular Edge payout, so storing IBANs was an unnecessary security liability.', 'Payout-details collection removed from the member portal.', F),
+    it('Manual approval of every signup', 'The policy expects a welcome email with the link right after registration.', 'Signups are auto-verified against active Talent in Radius; only mismatches go to review.', F),
+    it('Referrers saw too much', 'Detailed Radius stages and denial reasons leak candidate information.', 'Referrers see Pending/Approved/Denied and a coarse step only; denial reasons are hidden. Needs a legal check under Peru’s data-protection law (Ley 29733).', D),
+    it('No dispute process', 'The policy gives members 14 days after a payout to report a missing payment.', 'Members can report a missing payment within the window; it opens an Assist ticket for Marketplace Ops.', F),
+    it('Bulk imports could corrupt data', 'CSV imports usually write row by row, so one bad file leaves half-applied changes, duplicates and retroactive claims.', 'Every row is validated first (scope, duplicates after email clean-up, former Talent, application date) and only confirmed valid rows are applied, in one update.', F),
+    it('Customer referrals of existing clients', 'Members could refer a company that is already an Edge customer, or two members the same company.', 'Company domain is the unique key; existing customers are rejected at submission.', F),
+    it('Wrong brand on candidate page', 'It told candidates to “join Radius”; Radius is Edge’s platform, not the employer.', 'Candidate and member pages now say Edge; Radius stays internal.', F)
+  ] },
+  { title: 'Still to decide', items: [
+    it('Payment depends on hours', 'USD programs pay 150 for full-time and 50 for part-time, so the amount is unknown until the person starts.', 'Hours are captured at the start event and the amount is fixed when the referral is approved; PEN 500 flat in Peru. Customer referrals assumed to use the same 150 / 50 split.', D),
+    it('“Internal Edge” program', 'The policy says referrals for internal positions go through the Help Desk, not links. The first brief asked for an Internal Edge signup link.', 'Clarify whether this program is for internal staff referring Talent, or for internal roles.', D),
+    it('Meaning of “3 consecutive months”', 'Calendar months assumed. Do unpaid leave or short pauses break “consecutive”?', 'Engine uses calendar months and treats any end event as a break.', D),
+    it('Time zone for cut-offs', 'Month-end and 3-month dates differ between Lima and Karachi near midnight.', 'Each program stores its business time zone; confirm Finance agrees.', D),
+    it('Attribution window', 'How long after a link click does an application still count? Dormant applications may sit for months.', 'Pick a window (e.g. 90 days) and decide whether dormant referrals expire.', D)
+  ] }
+];
+class Component extends DCLogic {
+  renderVals() {
+    var all = []; GROUPS.forEach(function (g) { all = all.concat(g.items); });
+    return { groups: GROUPS, fixedCount: all.filter(function (i) { return i.tag === 'Fixed'; }).length, openCount: all.filter(function (i) { return i.tag !== 'Fixed'; }).length };
+  }
+}
+</script>
+</body>
+</html>
